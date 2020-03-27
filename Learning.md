@@ -643,6 +643,17 @@ https://blog.csdn.net/universus/article/details/6211589
 	* C/S/ServiceManager均在用户空间，Binder Driver在内核空间
 	* C/S/ServiceManager均通过系统调用open、mmap、ioctl访问设备文件/dev/binder，从而实现与Binder Driver的交互，实现Binder IPC
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/BinderStructure.png)
+* Binder Driver
+	* 负责IPC的建立，进程间传递，引用计数管理，数据包的传递交互等
+* ServiceManager
+	* 将字符形式的Binder名字转换成Client对Binder的引用，使得Client通过Binder名字获得Binder的引用。
+	* 注册了名字的Binder叫实体Binder
+	* S创建Binder，并连同自己的名字发送给ServiceManager，向ServiceManager注册自己。Binder Driver为S的Binder创建内核中的实体节点以及ServiceManager对实体的引用，打包发送给ServiceManager。ServiceManager将名字和打包信息填入索引表
+	* ServiceManager与其他进程通信时一样使用Binder IPC，充当S。SM提供的Binder较特殊，没有名字也无需注册，进程使用BINDER_SET_CONTEXT_MGR将自己注册为SM。SM的Binder的引用也始终为0。
+	* C向SM请求访问S名字的Binder，SM将查找到的S引用返回
+	* 此时S的Binder引用有两个，一个在ServiceManager中，一个在Client中
+
 ### 设计模式篇
 ##### 策略模式
 * 一个问题多种处理方法
