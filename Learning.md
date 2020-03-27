@@ -122,3 +122,6 @@
 	* 子布局逐层向父布局回调onTouchEvent
 	* 整个过程是自底层向顶层，再向底层的事件传递过程
 	* 中间没有消费或者拦截事件（dispatchTouchEvent、onInterceptionTouchEvent、onTouchEvent都返回false），最终父布局将收到onTouchEvent
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent1.jpg)
+	* 在dispatchTouchEvent的过程中，如果有一层View return true，事件的传递将不再继续。同时整个层级中的任何View都不会受到onTouchEvent回调（包括自己）
+![avatar]()
