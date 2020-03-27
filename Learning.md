@@ -79,6 +79,8 @@
 	* 隐式：new等方式生成对象
 	* 显式：通过class.forname等方法加载
 
+##### Java堆新生代、老年代、永久代
+
 ### 数据结构篇
 ##### 基本数据结构大小
 * byte：1字节，-128(-2 ^ 8) ~ 127(2 ^ 7 - 1)
@@ -92,9 +94,9 @@
 * 出于节约内存的考虑，通过IntegerCache做了缓存逻辑，默认缓存[-128, 127]：
 ```java
 public static Integer valueOf(int i) {
-	if (i >= IntegerCache.low && i <= IntegerCache.high)
-		return IntegerCache.cache[i + (-IntegerCache.low)];
-	return new Integer(i);
+    if (i >= IntegerCache.low && i <= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
 }
 ```
 * 缓存通过一个for循环实现。从低到高并创建尽可能多的整数并存储在一个整数数组中。这个缓存会在Integer类第一次被使用的时候被初始化出来。以后，就可以使用缓存中包含的实例对象，而不是创建一个新的实例(在自动装箱的情况下)
@@ -156,24 +158,24 @@ integer3 != integer4;
 
 ```java
 public V get(Object key) {
-	if (key == null)
-		return getForNullKey();
-	int hash = hash(key.hashCode());
-	
-	// 在"该hash值对应的链表"上查找"hash等于key"的元素
-	for (Entry<K, V> e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
-		Object k;
-		if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-			return e.value;
-		}
-	}
-	
-	return null;
+    if (key == null)
+        return getForNullKey();
+    int hash = hash(key.hashCode());
+    
+    // 在"该hash值对应的链表"上查找"hash等于key"的元素
+    for (Entry<K, V> e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
+        Object k;
+        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            return e.value;
+        }
+    }
+    
+    return null;
 }
 
 // h & (length - 1) -> h % (length - 1)
 static int indexFor(int h, int length) {
-	return h & (length - 1);
+    return h & (length - 1);
 }
 ```
 
