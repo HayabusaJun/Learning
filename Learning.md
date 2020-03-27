@@ -91,7 +91,9 @@
 	* 显式：通过class.forname等方法加载
 
 ##### Java堆新生代、老年代、永久代
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/JvmObjectLifeGeneration.png)
+
 * 新生代：存放刚new出来的对象，一般占堆空间的1/3。由于频繁创建对象，所以会频繁触发MinorGC进行垃圾回收
 	* Eden（默认8 /10）：新对象的出生地。如果创建对象的内存很大则直接分配到老年代。Eden区内存不够就会触发MinorGC，对新生代进行一次GC
 	* Survivor From、Survivor To（各自默认1 / 10）复制算法操作区
@@ -102,6 +104,7 @@
 	* 虽然会触发stop-the-world，但回收速度快
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/JvmObjectOldGeneration.png)
+
 * 老年代：比较稳定，MajorGC不会频繁执行
 	* 清理Tenured区
 	* MajorGC前通常至少已经有过一次MinorGC
@@ -123,7 +126,9 @@
 	* Cleaning the entire heap - both Young and Tenurned space
 
 ##### Jvm内存区域划分
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/JvmMemory.png)
+
 * 程序计数器（PC寄存器）：记录处理器下一条指令的地址。为了在线程切换后能够恢复到正确的执行位置，每个线程都有一个独立的程序计数器，因此是线程私有的。
 * Java虚拟机栈：每个线程都有一个，生命周期与线程相同，存储线程中Java方法调用的状态：局部变量、参数、返回值、运算中间结果。
 一个JVM包含多个栈帧，一个栈帧用来存储局部变量表、操作数栈、动态链接、方法出口等信息。当线程调用一个Java方法时，虚拟机压入一个新的栈帧到该线程的Java栈中，当该方法执行完成，这个栈帧就从Java栈中弹出。我们平常所说的栈内存（Stack）指的就是Java虚拟机栈。
@@ -500,7 +505,9 @@ static int indexFor(int h, int length) {
 	* 双缓冲策略：SurfaceView更新画面时用到两个Canvas，lockCanvas获取缓存，绘制完成后unlockCanvasAndPost将缓存内容显示；
 	* 7.0及以后版本的SurfaceView平移、缩放不再产生黑边；
 	* 通过SurfaceHolder与外界进行消息通信；
-	![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/SurfaceView.png)
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/SurfaceView.png)
+
 * TextureView
 	*	不会像SurfaceView一样在WMS中创建单独的Window，而是作为View hierarchy中一个普通的View；
 	* 支持所有的View操作和View属性；
@@ -588,19 +595,52 @@ static int indexFor(int h, int length) {
 	* 子布局逐层向父布局回调onTouchEvent
 	* 整个过程是自底层向顶层，再向底层的事件传递过程
 	* 中间没有消费或者拦截事件（dispatchTouchEvent、onInterceptionTouchEvent、onTouchEvent都返回false），最终父布局将收到onTouchEvent
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent1.png)
+
 	* 在dispatchTouchEvent的过程中，如果有一层View return true，事件的传递将不再继续。同时整个层级中的任何View都不会受到onTouchEvent回调（包括自己）
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent2.png)
+
 	* 如果有一层onInterceptTouchEvent return true，事件将不再向子布局传递，而是从当前布局开始向父布局回调onTouchEvent。该层向下的子布局无任何View的回调
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent3.png)
+
 	* 如果有一层dispatchTouchEvent、onInterceptTouchEvent 都return true，事件的传递将截断，同时会回调本层的onTouchEvent
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent4.png)
+
 	* ViewGroup传递TouchEvent给View
 		* 判断点击事件落在View的区域内
 		* 子View没有在播放动画
 
 ##### Activity
+
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/ActivityFragmentLifeCycle.png)
+
+* Activity启动模式
+	* standard：允许相同Activity叠加
+	* singleTop：栈顶不允许相同的Activity叠加，启动与栈顶相同的Activity将会触发栈顶Activity的onNewIntent
+	* singleTask：如果Activity栈中没有该类型的Activity，启动；如果有，将栈中位于它之上的Activity都弹出，并调用自己的onNewIntent
+	* singleInstance：只有一个Activity实例，且该实例运行在一个独立的Activity栈中，这个栈也不会存放其他Activity
+* ActivityManagerService
+	* 管理Activity运行状态的系统进程
+	* 也兼任管理其他组件的运行状态
+	* init进程是Android的初始化进程，init进程生成Zygote进程，Android大部分的系统进程和应用进程是通过Zygote进程生成
+	* AMS是一个实名Binder（Context.ACTIVITY_SERVICE）
+	* 同时还注册meminfo、cpuinfo等
+	* AMS构造步骤
+		* 初始化必要的Context和Handler
+		* 定义广播队列，说明不仅管理Activity，也管理其他组件
+		* 管理Service和Provider的对象数组
+		* 初始化system下面的一些列文件目录
+		* ActivityStackSupervisor：管理Activity Stack和Activity的状态信息
+		* ActivityStarter：启动处理类
+* Activity何时可见？
+	* onResume()？
+	* onResume -> handleResumeActivity -> Activity.makeVisible()
+* App启动的入口
+	* ActivityThread.main()
 
 ##### Binder IPC
 https://www.jianshu.com/p/429a1ff3560c
@@ -644,6 +684,7 @@ https://blog.csdn.net/universus/article/details/6211589
 	* C/S/ServiceManager均通过系统调用open、mmap、ioctl访问设备文件/dev/binder，从而实现与Binder Driver的交互，实现Binder IPC
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/BinderStructure.png)
+
 * Binder Driver
 	* 负责IPC的建立，进程间传递，引用计数管理，数据包的传递交互等
 * ServiceManager
@@ -653,6 +694,23 @@ https://blog.csdn.net/universus/article/details/6211589
 	* ServiceManager与其他进程通信时一样使用Binder IPC，充当S。SM提供的Binder较特殊，没有名字也无需注册，进程使用BINDER_SET_CONTEXT_MGR将自己注册为SM。SM的Binder的引用也始终为0。
 	* C向SM请求访问S名字的Binder，SM将查找到的S引用返回
 	* 此时S的Binder引用有两个，一个在ServiceManager中，一个在Client中
+
+![avatar](https://github.com/HayabusaJun/Learning/blob/master/ImageHosting/BinderProcedure.png)
+
+* A、B进程间对象的引用——代理模式
+	* A跨进程获取到B的并不是对象本身，而是B对象的代理，只有接口，没有具体实现。A这些方法调用后会将参数传递给Binder Driver
+	* 当Binder Driver接收到A调用信息后，通过proxyObject查询到对象实际存在的B进程和对象方法，通知B进程的对象调用实际的方法，并要求B进程将调用结果发送给自己
+* AIDL各文件的意义
+	* IBinder：接口，代表能实现IPC的能力，继承了IBinder接口并实现就能进行IPC
+	* IInterface：S端能提供什么服务，与.aidl中定义的接口一致
+	* Binder：Java层的Binder类，代表Binder本地对象。BinderProxy是Binder的内部类，代表Binder的本地代理。两者均基础IBinder
+	* Stub：S端，静态内部类
+		* 继承IBinder和IInterface。在IInterface中完成承诺的实现
+		* asInterface：判断C/S是否处于同一进程，属于返回本地Binder对象，不属于创建Proxy对象
+		* onTransact：反序列化调用方法和入参，进行实际的调用并返回ServiceManager调用结果
+	* Proxy：C端，
+		* 实现IInterface接口，序列化调用方法和入参
+		* 调用remote.transact()后，通过系统调用进入内核态。执行方法的C端线程挂起，等待返回值唤醒
 
 ### 设计模式篇
 ##### 策略模式
