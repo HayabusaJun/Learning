@@ -80,6 +80,17 @@
 	* 显式：通过class.forname等方法加载
 
 ##### Java堆新生代、老年代、永久代
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/JvmObjectLifeGeneration.png)
+* 新生代：存放刚new出来的对象，一般占堆空间的1/3。由于频繁创建对象，所以会频繁触发MinorGC进行垃圾回收
+	* Eden（默认8 /10）：新对象的出生地。如果创建对象的内存很大则直接分配到老年代。Eden区内存不够就会触发MinorGC，对新生代进行一次GC
+	* Survivor From、Survivor To（各自默认1 / 10）复制算法操作区
+	* 复制算法：正常使用时只使用Survivor两块中的一块。进行GC时，内存中正在使用的存活对象被复制到其中一块，然后清除正在使用的内存区域。保存存活对象的Survivor就成为了下个阶段的使用区域。下次GC时交换两个Survivor的角色。
+	* 为什么这么搞：YoungGen. GC频繁，对象存活概率低，复制算法回收效率高，不容易产生碎片（重点）
+	* 缺点：浪费了一块Survivor区域的内存
+	* 对象在Survivor区每经历过一次MinorGC，就增长一岁，增长到一定年龄后（默认15岁）就会进入老年代
+	* 虽然会触发stop-the-world，但回收速度快
+![avatar]()
+
 
 ### 数据结构篇
 ##### 基本数据结构大小
