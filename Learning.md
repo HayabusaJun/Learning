@@ -93,3 +93,32 @@
 	* 尽量使用简单的DisplayList达到效果，以实现最佳性能
 
 ##### onMeasure、onLayout、onDraw
+* onMeasure：计算当前View的宽高
+* onLayout：处理子View的布局
+* onDraw：绘制当前View
+* onMeasure -> onLayout -> onDraw
+* requestLayout：View重新调用一次layout的过程
+* Invalidate：View重新调用一次draw的过程。
+* forceLayout：标注View在下一个sync周期重绘，强制进行layout
+* View的内容变了，但是大小没变，调用invalidate；内容和大小都变了就先调用requestLayout在调用invalidate
+* onMeasure细节
+	* MeasureSpec.getMode：获取layout宽/高模式
+		* UNSPECIFIED：任意大小
+		* AT_MOST：wrap_content
+		* EXACTLY：确定的dp或者match_parent
+	* MeasureSpec.getSize：获取layout宽/高大小
+	* setMeasureDimension：设置measure后确定下来的宽高
+	* getSuggestedMinimumWidth、getSuggestedMinimumHeight：建议最小宽高
+	* getMeasuredHeight、getHeight
+		* getMeasuredHeight：测量高度，可能和真实高度不一样。如果没有requestLayout的话一直是之前的measure结果
+		* getHeight：真实高度
+
+##### View.TouchEvent
+* onTouchListener优先级高于onTouchEvent，如果onTouchListener返回true，表示Touch已被消费，不会触发onTouchEvent回调
+* onClick事件基于onTouchEvent实现，如果onTouchEvent返回true，表示TouchEvent已被消费，不会触发onClick
+* TouchEvent
+	* A.dispatchTouchEvent -> A.onInterceptTouchEvent -> B.dispatchTouchEvent -> B.onInterceptTouchEvent -> B.onTouchEvent -> A.onTouchEvent
+	* ACTION_DOWN由父布局开始逐层向子布局进行dispatchTouchEvent -> onInterceptTouchEvent（只有ViewGroup有）
+	* 子布局逐层向父布局回调onTouchEvent
+	* 整个过程是自底层向顶层，再向底层的事件传递过程
+	* 中间没有消费或者拦截事件（dispatchTouchEvent、onInterceptionTouchEvent、onTouchEvent都返回false），最终父布局将收到onTouchEvent
