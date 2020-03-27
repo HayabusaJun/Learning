@@ -642,6 +642,45 @@ static int indexFor(int h, int length) {
 * App启动的入口
 	* ActivityThread.main()
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/ActivityStartFlow.png)
+
+##### Context
+* Activity extends ContextThemeWrapper extends ContextWrapper extends Context
+* Application / Service extends ContextWrapper extends Context
+* 作用
+	* 启动Activity
+	* 启动、停止Service
+	* 发送广播Intent
+	* 注册广播监听
+	* 访问Apk资源（Resources、AssetManager）
+	* 创建View
+	* 访问Package相关信息
+	* 权限申请管理
+* Context个数：Activity.count + Service.count + 1 (Application)
+* 不同Context的功能区别
+
+
+||Application|Activity|Service|
+|-|-|-|-|
+|Show Dialogs||√||
+|Start Activities||√||
+|Layout Inflation||√||
+|Start/Bind Services|√|√|√|
+|Register BroadcastReceiver|√|√|√|
+|Load APK Resources|√|√|√|
+
+##### Handler
+* 几个相关对象：Looper、MessageQueue、Message
+* 为什么主线程不需要Looper.prepare和Looper.loop（先prepare后loop，不能搞反顺序）
+	* ActivityThread.main已经做了这件事情
+* sendMessage的不同方法最终都会走到sendMessageAtTime，调用MessageQueue.enqueueMessage，将Message加入到Message链表中
+* Looper.loop后，Looper循环从MessageQueue中取Message
+	* 如果是Message，回调handleMessage
+	* 如果设置了callback（Runnable.run），回调callback
+* 延迟是如何实现的
+	* MessageQueue.enqueueMessage(Message, long)，根据Message.when将Message按升序插入到MessageQueue中
+	* enqueue后，如果链表首部的Message.when > 0，计算delay time，Looper阻塞。等待下一个Message enqueue或者delay时间到的时候唤醒
+
 ##### Binder IPC
 https://www.jianshu.com/p/429a1ff3560c
 https://blog.csdn.net/universus/article/details/6211589
