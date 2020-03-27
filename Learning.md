@@ -600,7 +600,48 @@ static int indexFor(int h, int length) {
 		* 子View没有在播放动画
 
 ##### Activity
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/ActivityFragmentLifeCycle.png)
 
+##### Binder IPC
+https://www.jianshu.com/p/429a1ff3560c
+https://blog.csdn.net/universus/article/details/6211589
+* 基于安全、性能、稳定性的考量
+* 性能
+	* Socket作为通用接口，传输效率太低，开销大，主要用于网络，本地低速通信。两次拷贝；
+	* 消息队列基于”存储-转发”，数据先从发送方缓冲区拷贝到内核缓冲区，再从内核缓冲区拷贝到接收方缓冲区。两次拷贝；
+	* 共享内存无数据拷贝，但控制较复杂；
+	* Binder仅需一次数据拷贝，性能上仅次于共享内存；
+* 稳定性
+	* 基于C/S架构，职责清晰；
+* 安全性
+	Linux IPC安全问题
+	* 没有底层安全措施；
+	* 无法获取到对方可信的UID/PID，无法鉴别对方身份；Binder内核层分配UID；
+	* 接入点开发，理论上任意程序都可以建立连接；
+* Linux IPC概念
+	* 进程间隔离，无法直接访问
+	* 进程空间划分：用户空间、内核空间。32位Linux系统中，内核空间1G，用户空间3G
+	* 系统调用：用户态（3级）、内核态（0级）。用户空间想要访问内核资源（网络、文件系统），需要借助系统调用实现，用户空间访问系统空间的唯一方法，保证所系统有资源的访问都是在内核态下完成的，避免越权访问。
+	* 发送方并通过系统调用进入内核态。内核程序在内核空间分配内存，开辟发送缓冲区，并将数据从用户空间拷贝到内核的缓冲区（copy_from_user）。接收方在用户空间分配接收缓冲区，内核通过copy_to_user将缓冲区的数据拷贝到接收方的接收缓冲区。
+		* 两次拷贝数据
+		* 缓冲区大小难以计算，不是浪费时间就是浪费空间
+* Binder
+	* Binder不是Linux内核的一部分
+	* 动态内核可加载模块（Loadable Kernel Module）：可单独编译，不可单独运行，需要被链接到内核，成为内核的一部分才能运行。
+	* Android系统通过这个动态加载的模块运行在内核空间，用户空间通过这个空间作为桥梁进行通信。
+	* Binder Driver
+* 一次拷贝的实现：mmap 内存映射
+	* 用户空间的一片内存区域与内核层的一片内存区域相互映射，双方对各自区域的写操作都能被对方感知
+	* 通常是作用在有物理介质的文件系统上的
+		* 常规文件读取操作需要经历：磁盘 -> 内核空间 -> 用户空间。通过mmap将磁盘空间与用户空间做映射，减少拷贝次数
+* 一次Binder IPC过程
+	* Binder Driver在内核创建一块数据接收缓冲区
+	* 内核空间开辟一块内核缓存区，并与Binder的数据接收缓冲区建立mmap
+	* 数据接收缓冲区与接收进程用户空间建立mmap
+	* 发送方的数据被copy_from_user()映射到内核缓冲区后，因为两个mmap的作用，直接作用到了接收进程的用户空间
+* C/S/ServiceManager/Binder Driver
+	* C/S/ServiceManager均在用户空间，Binder Driver在内核空间
+	* C/S/ServiceManager均通过系统调用open、mmap、ioctl访问设备文件/dev/binder，从而实现与Binder Driver的交互，实现Binder IPC
 
 ### 设计模式篇
 ##### 策略模式
