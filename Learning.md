@@ -145,6 +145,14 @@
 	* 方法区的一部分
 	* 存放编译器生成的字面量和符号引用
 
+##### ThreadPoolExecutor
+* 当ThreadPool.size < coreThreads.size时，即使之前的线程已经出现空闲了，executor也会创建一个core thread
+* 当coreThreads.size达到ThreadPool.size，新任务会优先去往WorkQueue
+* 当WorkQueue.isFull，但没有到达max值时，创建一个non-core thread
+* 当WorkQueue达到max值时，任务被交给RejectedExecutionHandler
+* 当non-core thread空闲时间超过keep alive time时，自行销毁
+* 当core-thread空闲时间超过allowCoreThreadTimeout时自行销毁
+
 ### 锁篇
 ##### 锁的状态
 * 重量级锁：依赖于Mutex锁；
@@ -281,7 +289,81 @@ public final int incrementAndGet() {
 	* Fail safe iterator does not guarantee that the data being read is the data currently in the original data structure.
 	* Costly maybe, but preclude interference among concurrent threads.
 	* Element-changing operations on snapshot iterators (remove(), set(), and add()) are not supported. These methods throw UnsupportedOperationException.
-git
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/FailFastFailSafe.png)
+
+##### CopyOnWrite(COW)
+* 当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对CopyOnWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以CopyOnWrite容器也是一种读写分离的思想，读和写不同的容器。
+* 读的时候不需要加锁，如果读的时候有多个线程正在向ArrayList添加数据，读还是会读到旧的数据，因为写的时候不会锁住旧的ArrayList。
+* 适合读多写少的场景
+* 注意扩容带来的开销，减少添加的次数，多使用addAll。大容量的CopyOnWrite容易造成频繁的Young GC和Full GC
+* 数据量较大的时候，建议使用ConcurrentXXX
+* 不保证数据一致性
+
+##### 应用：单例模式
+* 不使用锁和volatile的懒加载线程安全单例
+	* 利用classloader的特性，类加载是线程安全的
+	* 饿汉，隐藏了Holder类，避免Holder类加载导致提前被初始化
+	* 为什么instance要声明为final？类初始化时，所有的final变量必须初始化完成后才会返回实例。保证其原子性
+```java
+public class Singleton {
+    public static Singleton getInstance() {
+        return Holder.instance;
+    }
+    
+    static class Holder {
+        public static final Singleton instance = new Singleton();
+    }
+}
+```
+* 使用锁和Volatile的懒加载线程安全单例（DCL）
+如果不加volatile谁会有问题？instance = new Singleton()，三个操作：
+	* 1. allocate
+	* 2. construct
+	* 3. 使pointer指向刚刚构建好的object
+
+	如果不加volatile，这三个操作可能被指令重排，比如使得3.提前到2.之前执行，而其他线程在此期间判断instance为null，也去初始化Singleton
+```java
+public class Singleton {
+    private volatile static Singleton instance;
+    
+    public final getSingleton() {
+       if (null == instance) {
+           synchronized (Singleton.class) {
+               if (null == instance) {
+                   instance = new Singleton();
+               }
+           } 
+       }
+       
+       return instance;
+    }
+}
+```
+* 使用枚举
+	* enum继承Enum类。INSTANCE反编译后会变成一个static final对象，于是当Singleton类被加载的时候，INSTANCE已经被初始化出来了。同时类加载和初始化都是线程安全的
+	* 可以避免反序列化，为什么？枚举的反序列化不是通过反射实现。
+```java
+public enum Singleton {
+    Instance;
+    public Singleton getInstance() {
+        return Instance;
+    }
+}
+```
+* 防止Singleton通过序列化的方式构建
+```java
+public class Singleton implements java.io.Serializable {
+    public static Singleton Instance = new Singleton();
+    
+    protected Singleton() {}
+    
+    private Object readResolve() {
+        return Instance;
+    }
+}
+```
+
 
 ### 数据结构篇
 ##### 基本数据结构大小
@@ -516,6 +598,9 @@ static int indexFor(int h, int length) {
 	* ViewGroup传递TouchEvent给View
 		* 判断点击事件落在View的区域内
 		* 子View没有在播放动画
+
+##### Activity
+
 
 ### 设计模式篇
 ##### 策略模式
