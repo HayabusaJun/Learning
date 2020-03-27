@@ -126,5 +126,6 @@
 	* 在dispatchTouchEvent的过程中，如果有一层View return true，事件的传递将不再继续。同时整个层级中的任何View都不会受到onTouchEvent回调（包括自己）
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent2.png)
 	* 如果有一层onInterceptTouchEvent return true，事件将不再向子布局传递，而是从当前布局开始向父布局回调onTouchEvent。该层向下的子布局无任何View的回调
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/TouchEvent3.png)
+	* 如果有一层dispatchTouchEvent、onInterceptTouchEvent 都return true，事件的传递将截断，同时会回调本层的onTouchEvent
 ![avatar]()
-
