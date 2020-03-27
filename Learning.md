@@ -21,6 +21,17 @@
 * hashCode多次调用，返回的结果必须相同；
 * equals不相同的情况下，hashCode不一定要求不同；
 
+##### Java对象在内存中的结构
+* 包含三部分：对象头、实例数据、对齐填充
+* Java对象头包含两部分：
+	* Class Metadata Address（类型指针）。存储类的元数据的指针，JVM通过该指针找到是哪个类的实例
+	* Mark Word（标记字段）。存储对象自身运行时的数据，比如Hash、GC分代年龄、锁状态
+* Monitor
+	* Mark Word有一个字段指向Monitor对象，Monitor中记录锁持有的线程、等待线程队列信息等。
+	* _owner：记录当前持有锁的线程
+	* _EntryList：记录所有阻塞等待锁的线程
+	* _WaitSet：记录调用了wait()但没有被通知的线程
+
 ##### ClassLoader
 * 加载的目的：将字节码转换成JVM的Class类对象
 * 两个重要特性：层次组织结构、代理模式
@@ -179,7 +190,98 @@
 	* 不会阻塞其他线程，也不涉及内核态和用户态的切换
 	* 代表：CAS
 
-##### 公平
+##### 公平锁、非公平锁
+* 公平锁：各线程在加锁前检查有无排队的线程，按照排队的顺序去获取锁
+* 非公平锁：加锁前不考虑队列，先去尝试获取锁，获取不到的情况下再去排队
+
+##### 可重入锁、不可重入锁
+* 如果一个线程已经获取到一个锁，那么它可以访问所有被这个锁锁住的block
+
+##### synchronized关键字
+* 独占锁
+* 修饰静态方法时，锁类对象（Object.class）。修饰非静态方法时，锁对象（this）
+* 每个对象有一个锁和一个等待队列
+* 锁只能被一个对象持有，其他需要锁的线程需要阻塞等待
+* 锁被释放后，对象会从队列中取一个线程并唤醒，唤醒的线程是不确定的，所以是非公平锁
+* 锁对象，非锁代码。只要是不同的锁对象，相同的synchronize block依然可以并行执行
+* synchronized方法不能防止非synchronized方法被同时执行，所以一般在保护变量时，需要在所有访问该变量的方法上加上synchronized
+* Java对象Monitor中记录锁持有的线程、等待线程队列信息等。
+	* _owner：记录当前持有锁的线程
+	* _EntryList：记录所有阻塞等待锁的线程
+	* _WaitSet：记录调用了wait()但没有被通知的线程
+	* 操作机制
+		1. 多个线程竞争锁时，先进入_EntryList，竞争成功的被标记位_owner。其他线程继续在_EntryList中阻塞等待
+		2. 如果Owner线程调用了wait()，则Owner释放对象锁，并进入_WaitSet等待被唤醒。Owner被置空，_EntryList的线程再次竞争锁
+		3. 如果Owner线程执行完了，便释放锁，Owner被置空，_EntryList的线程再次竞争锁
+* JVM对synchronized的优化
+	* 自旋锁：可以让等待线程执行一定次数的循环，在循环中获取锁。通过CPU的占用来节省线程切换带来的消耗
+	* 锁消除：如果虚拟机运行时发现一段锁住的block中不存在可以被其他线程共享的数据时，就将锁消除
+	* 锁粗化：当虚拟机检测到有多个零散的代码块都是用同一个对象加锁时，会将锁拓展到整个操作序列外部。比如StringBuffer.append
+	* 轻量级锁：如果整个synchronized的期间没有线程竞争，轻量级锁就不会升级为重量锁，避免互斥量的开销
+	* 偏向锁：如果线程获得了一个锁，那么该锁就成为偏锁。获得偏锁的线程无需再次请求该锁
+
+##### CAS（Compare and Swap）
+* 从内存位置获取到值，先与旧的预期值比较。如果相等，则将内存位置的值修改为新值。如果不等，说明与其他线程有冲突，不做任何修改。在不阻塞线程的情况下避免并发的冲突，性能好。
+* 重试机制：使用一个死循环，CAS成功结束循环。失败就从内存中重新获取旧值，并计算新值，再次尝试CAS。
+* AtomicInteger.incrementAndGet
+```java
+public final int incrementAndGet() {
+    for(;;) {
+        int current = get();
+        int next = current + 1;
+        if (compareAndSet(current, next))
+            return next;
+    }
+}
+```
+* 读取、比较、修改，需要保证比较和修改的原子性，才能保证整个CAS操作的原子性
+* CAS只保证操作的原子性，不保证可见性
+* 存才ABA问题，解决方式是增加版本号
+
+##### ReentrantLock
+* 和synchronized类似（可重入、可见性、解决竞态条件等）
+* 支持非阻塞方式获取锁
+* 支持响应中断
+* 支持限时
+* 支持公平锁和非公平锁。内部类通过FairSync和NoFairSync实现，两者均基础Sync，Sync又继承AQS
+
+##### AQS（AbstractQueuedSynchronizer）
+* State：使用该锁的数量，volatile修饰，并通过CAS操作
+* FIFO双向链表，记录线程信息，每个链代表一个等待线程
+* （非公平锁）请求锁时的三种表现
+	* 没有其他线程持有锁，直接获取到锁
+	* 当前线程已经获取到该锁了，state +1，表示重入申请到锁了。释放锁时 -1。可重入的表现
+	* 其他线程已经持有锁了，将自己添加到等待队列（即使是非公平锁，线程进入等待队列后还是得按照顺序来）
+* （公平锁）在竞争锁前判断等待队列中有没有其他队列在等待锁
+* 挂起等待：
+	* 如果该节点的前序节点是HEAD，尝试获取锁，获取到了就移除。获取不到进入下一步
+	* 判断前一个节点的waitStatus，如果是SINGAL，将自己挂起。如果是CANCEL，移除前序节点。如果是其他值，标记位SINGAL，进入下个循环（代表一个线程有两次竞争机会，竞争不到就挂起）
+
+##### ReentrantReadWriteLock
+* 一个读锁一个写锁，分别对应读操作和写操作
+* 只有一个线程可以获得写锁，只有没有任何线程获得任何锁时才能获取到写锁
+* 如果有现场持有写锁，任何线程都获得不到任何锁
+* 没有线程获取到写锁时，读锁可以被多个线程获得
+* 读写锁虽然有两个锁，但实际上只有一个等待队列
+	* 获取写锁时，要保证没有任何线程持有锁；
+	* 写锁释放后，会唤醒队列第一个线程，可能是读锁和写锁；
+	* 获取读锁时，先判断写锁有没有被持有，没有就可以获取成功；
+	* 获取读锁成功后，会将队列中等待读锁的线程挨个唤醒，直到遇到等待写锁的线程位置；
+	* 释放读锁时，要检查读锁数，如果为0，则唤醒队列中的下一个线程，否则不进行操作。
+
+##### Fail-Fast and Fail-Safe
+* Fail-Fast：
+	* instantly throw Concurrent Modify Exception。
+	* single thread env：structure is modified at any time by any method other than iterator's own remove method
+	* Multi thread env: one thread is modifying the structure of the collection while other thread is iterating over it
+	* How iterator come to know that internal structure had been changed? Iterator checks “mods” flag whenever it gets next value, the “mods” flag will be changed whenever there’s an structural modification.
+* Fail-Safe:
+	* Makes copy of the internal data structure and the iterator over copied data structure. Any structure modification done to the iterator affects the copied data structure, origin data structure remains unchanged, no Concurrent Modify Exception throw
+	* Overhead of maintaining the copied data structure i.e memory.
+	* Fail safe iterator does not guarantee that the data being read is the data currently in the original data structure.
+	* Costly maybe, but preclude interference among concurrent threads.
+	* Element-changing operations on snapshot iterators (remove(), set(), and add()) are not supported. These methods throw UnsupportedOperationException.
+git
 
 ### 数据结构篇
 ##### 基本数据结构大小
