@@ -89,8 +89,30 @@
 	* 缺点：浪费了一块Survivor区域的内存
 	* 对象在Survivor区每经历过一次MinorGC，就增长一岁，增长到一定年龄后（默认15岁）就会进入老年代
 	* 虽然会触发stop-the-world，但回收速度快
-![avatar]()
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/JvmObjectOldGeneration.png)
+* 老年代：比较稳定，MajorGC不会频繁执行
+	* 清理Tenured区
+	* MajorGC前通常至少已经有过一次MinorGC
+	* 老年代空间不足时会触发MajorGC
+	* 无法找到足够大的连续空间分配给新创建的较大对象时，也会触发MajorGC来腾出空间
+	* 标记-清除算法：分为标记和清除两个阶段，首先标记所有要回收的对象，标记完成后统一回收所有被标记的对象。为了减少浪费，一般会标记出碎片大小，方面后面直接分配
+	* 标记-清除算法缺点
+		* 效率不高，标记和清除都是
+		* 清除完成后产生大量碎片空间
+	* 标记-整理算法：标记出所有需要回收的对象，让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。需要花费一段时间
+	* 老年代被存满后会抛出OOM
+* 永久代：主要存放Class和Meta（元数据）
+	* 类加载后元数据被放入永久区
+	* GC不会在主程序运行的时候清除永久代
+	* 永久代也会触发OOM
+	* Java 8中永久代被元数据区替代，元数据区不再像永久代一样存在JVM中，而是存在本地内存中，内存区域增大
+* Full GC
+	* 标记-清除算法
+	* Cleaning the entire heap - both Young and Tenurned space
+
+##### Jvm内存区域划分
+[!avatar]()
 
 ### 数据结构篇
 ##### 基本数据结构大小
