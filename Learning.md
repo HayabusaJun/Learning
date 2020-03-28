@@ -505,17 +505,62 @@ static int indexFor(int h, int length) {
 	*	LinuxThreads是用户空间的线程库，一个用户线程对应一个轻量级进程，一个轻量级进程对应一个特定的内核线程。将线程调度等同于进程调度，调度交由内核完成。线程的创建、同步、销毁由核外线程库完成
 * Linux内核不存在真正意义上的线程。所有的执行实体都是任务（task），每一个任务在Linux上都类似于一个单线程的进程，具有内存空间、任务实体、文件资源etc.。但Linux下不同任务间可以选择共用内存空间，这些共用内存空间的任务就成为一个进程下的线程。
 * 进程优先级
-	* 普通优先，调度策略SCHED_NORMAL
-	* 实时优先，调度策略SCHED_FIFO、SCHED_RR
-	* 实时优先进程优先级高于普通优先进程
+	* 普通优先级，调度策略SCHED_NORMAL
+	* 实时优先级，调度策略SCHED_FIFO、SCHED_RR
+	* 实时优先级高于普通优先级
 	* 度量方式：nice值、实时优先级（RTPRI）
-* nice值
+* 静态优先级——nice值
 	* 设定一个普通进程的优先级
 	* -20 ~ 19，越大优先级越低，获得CPU的调用机会越少
 	* 父进程fork出的子进程nice值继承父进程，父进程renice，子进程不会同时renice
-* 实时优先级
+* 静态优先级——实时优先级（RTPRI）
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/prioNiceRtpri.png)
 
+* 动态优先级
+	* 在执行阶段调度程序增加或减少进程静态优先级的值
+	* 奖励IO消耗进程
+	* 惩罚CPU消耗进程
+* 时间片大小：桌面级一般1ms，移动设备一般10ms
+* 完全公平调度算法（CFS）：一个进程的优先级越高，而且该进程到当前时刻执行的总时间越小（vruntime），则该进程被调度的可能性越高
+* 进程组（Cgroups）
+	* 记录、限制进程组可以使用的资源数量
+	* 控制进程组的优先级
+	* 挂起、恢复进程组
+	* 隔离进程组的进程、网络、文件系统、内存空间等
+* cgroup.share：cGroup获得CPU时间的相对值。CPU获得时间片比例前台进程：后台进程（/dev/cpuctl/ : /dev/cpuctl/bg_non_interactive） ≈ 95 : 5
+* SchedPolicy进程组
+```c
+/* Keep in sync with THREAD_GROUP_* in frameworks/base/core/java/android/os/Process.java */
+typedef enum {
+    SP_DEFAULT    = -1,
+    SP_BACKGROUND = 0,
+    SP_FOREGROUND = 1,
+    SP_SYSTEM     = 2,  // can't be used with set_sched_policy()
+    SP_AUDIO_APP  = 3,
+    SP_AUDIO_SYS  = 4,
+    SP_TOP_APP    = 5,
+    SP_CNT,
+    SP_MAX        = SP_CNT - 1,
+    SP_SYSTEM_DEFAULT = SP_FOREGROUND,
+} SchedPolicy;
+```
+* Android进程组与SchedPolicy进程组对应关系
+|Android进程组|SchedPolicy进程组|
+|-|-|
+|THREAD_GROUP_DEFAULT|SP_DEFAULT|
+|THREAD_GROUP_BG_NONINTERACTIVE|SP_BACKGROUND|
+|THREAD_GROUP_FOREGROUND|SP_FOREGROUND|
+|THREAD_GROUP_SYSTEM|SP_SYSTEM|
+|THREAD_GROUP_AUDIO_APP|SP_AUDIO_APP|
+|THREAD_GROUP_AUDIO_SYS|SP_AUDIO_SYS|
+|THREAD_GROUP_TOP_APP|SP_TOP_APP|
+* Android进程划分
+	* 前台进程（Foreground Process）
+	* 可见进程（Visible Process）
+	* 服务进程（Service Process）
+	* 后台进程（Background Process）
+	* 空进程（Empty Process）
 
 ### Android篇
 ##### SurfaceView、TextureView
