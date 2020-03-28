@@ -546,6 +546,7 @@ typedef enum {
 } SchedPolicy;
 ```
 * Android进程组与SchedPolicy进程组对应关系
+
 |Android进程组|SchedPolicy进程组|
 |-|-|
 |THREAD_GROUP_DEFAULT|SP_DEFAULT|
@@ -555,6 +556,7 @@ typedef enum {
 |THREAD_GROUP_AUDIO_APP|SP_AUDIO_APP|
 |THREAD_GROUP_AUDIO_SYS|SP_AUDIO_SYS|
 |THREAD_GROUP_TOP_APP|SP_TOP_APP|
+
 * Android进程划分
 	* 前台进程（Foreground Process）
 	* 可见进程（Visible Process）
