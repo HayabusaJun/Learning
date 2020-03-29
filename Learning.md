@@ -545,7 +545,7 @@ typedef enum {
     SP_SYSTEM_DEFAULT = SP_FOREGROUND,
 } SchedPolicy;
 ```
-* Android进程组与SchedPolicy进程组对应关系
+* Android进程组（frameworks/base/core/java/android/os/Process.java）与SchedPolicy进程组对应关系
 
 |Android进程组|SchedPolicy进程组|
 |-|-|
@@ -557,18 +557,27 @@ typedef enum {
 |THREAD_GROUP_AUDIO_SYS|SP_AUDIO_SYS|
 |THREAD_GROUP_TOP_APP|SP_TOP_APP|
 
+* Linux进程优先级oom_score_adj（after v2.6.36）
+	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
+	* 每个进程的优先级保存在/proc/[pid]/oom_score_adj
+	* LowMemoryKiller根据当前内存情况依次释放进程：
+		*	CACHED_APP_MAX_ADJ
+		*	CACHED_APP_MIN_ADJ
+		*	BACKUP_APP_ADJ
+		*	PERCEPTIBLE_APP_ADJ
+		*	VISIBLE_APP_ADJ
+		*	FOREGROUND_APP_ADJ
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/oomScoreAdj.png)
+
 * Android进程划分
 	* 前台进程（Foreground Process）
 	* 可见进程（Visible Process）
 	* 服务进程（Service Process）
 	* 后台进程（Background Process）
 	* 空进程（Empty Process）
-* 进程优先级oom_score_adj
-	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
-	* 每个进程的优先级保存在/proc/[pid]/oom_score_adj
-	* 一些ADJ预设值：
-
-
+* Android Process State
+	* ActivityManager重新定义了process_state的划分，并与oom_score_adj做对应
 
 ### Android篇
 ##### SurfaceView、TextureView
