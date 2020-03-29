@@ -563,6 +563,12 @@ typedef enum {
 	* 服务进程（Service Process）
 	* 后台进程（Background Process）
 	* 空进程（Empty Process）
+* 进程优先级oom_score_adj
+	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
+	* 每个进程的优先级保存在/proc/[pid]/oom_score_adj
+	* 一些ADJ预设值：
+
+
 
 ### Android篇
 ##### SurfaceView、TextureView
