@@ -501,18 +501,33 @@ static int indexFor(int h, int length) {
 * Linux中内核线程、轻量级线程、用户线程的区别和联系
 	*	内核线程只运行在内核态，不受用户态上下文影响
 	*	用户线程是完全建立在用户空间的线程库，用户线程的创建、调度、同步和销毁全部由库函数在用户空间完成，不需要内核的帮助。因此低消耗且高效
-	*	轻量级进程（LWP）建立在内核之上并由内核支持的用户线程。每一个轻量级线程都与一个特定的内核线程相关联。由内核管理并像普通进程一样被调度。
+	*	轻量级进程（LWP）建立在内核之上并由内核支持的用户线程。每一个轻量级线程都与一个特定的内核线程相关联。由内核管理并像普通进程一样被调度。Android的线程即对应着LWP。
 	*	LinuxThreads是用户空间的线程库，一个用户线程对应一个轻量级进程，一个轻量级进程对应一个特定的内核线程。将线程调度等同于进程调度，调度交由内核完成。线程的创建、同步、销毁由核外线程库完成
 * Linux内核不存在真正意义上的线程。所有的执行实体都是任务（task），每一个任务在Linux上都类似于一个单线程的进程，具有内存空间、任务实体、文件资源etc.。但Linux下不同任务间可以选择共用内存空间，这些共用内存空间的任务就成为一个进程下的线程。
 * 进程优先级
 	* 普通优先级，调度策略SCHED_NORMAL
 	* 实时优先级，调度策略SCHED_FIFO、SCHED_RR
-	* 实时优先级高于普通优先级
+	* 实时优先级高于普通优先级。通过设置调度策略可以实现两者的相互切换
 	* 度量方式：nice值、实时优先级（RTPRI）
-* 静态优先级——nice值
+* nice值
 	* 设定一个普通进程的优先级
 	* -20 ~ 19，越大优先级越低，获得CPU的调用机会越少
 	* 父进程fork出的子进程nice值继承父进程，父进程renice，子进程不会同时renice
+	* 进程nice值被改变后，底层会改变进程所在的cGroup（进程组）
+
+|Java Priority|nice值|
+|-|-|
+|1|19|
+|2|16|
+|3|13|
+|4|10|
+|5|0|
+|6|-2|
+|7|-4|
+|8|-5|
+|9|-6|
+|10|-8|
+
 * 静态优先级——实时优先级（RTPRI）
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/prioNiceRtpri.png)
@@ -560,7 +575,7 @@ typedef enum {
 * Linux进程优先级oom_score_adj（after v2.6.36）
 	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
 	* 每个进程的优先级保存在/proc/[pid]/oom_score_adj
-	* LowMemoryKiller根据当前内存情况依次释放进程：
+	* LowMemoryKiller根据当前内存情况由低到高依次释放进程：
 		*	CACHED_APP_MAX_ADJ
 		*	CACHED_APP_MIN_ADJ
 		*	BACKUP_APP_ADJ
@@ -576,8 +591,23 @@ typedef enum {
 	* 服务进程（Service Process）
 	* 后台进程（Background Process）
 	* 空进程（Empty Process）
-* Android Process State
-	* ActivityManager重新定义了process_state的划分，并与oom_score_adj做对应
+* Android Process State：ActivityManager重新定义了process_state的划分，并与oom_score_adj做对应
+
+![avater](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/AndroidProcessState.png)
+
+* Android进程优先级与Android应用组件生命周期变化相关，涉及：Activity、Service、Broadcast、ContentProvider、Process的相关事件。这些事件都过直接或者间接的调用到ActivityManagerService.java中的updateOomAdjLocked方法来更新进程优先级。updateOomAdjLocked方法先通过computeOomAdjLocked计算进程优先级，再通过applyOomAdjLocked应用进程优先级
+* Android应用状态发生变化后，会导致进程的oom_score_adj、procState、schedGroup等进程状态的重新计算和设置，从而改变进程的优先级和调度策略，帮助系统更合理的进行资源分配和回收
+* Android的线程对应Linux内核中的轻量级进程，主线程不建议手动设置，由系统根据应用状态的变化来调整。但子线程可以自行配置优先级。
+* computeOomAdjLocked大致经过以下过程：
+	* 空进程判断
+	* app.maxAdj <= ProcessList.FOREGROUND_APP_ADJ 的情况
+	* 是否有前台优先级
+	* 是否有前台服务
+	* 是否特殊进程
+	* 遍历所有Service的所有连接的Client，根据连接的关系确认客户端进程的优先级
+	* 遍历所有ContentProvider的所有连接的client
+* Android几种异步线程方式：new Thread()、AsyncTask、HandlerThread、ThreadPoolExecutor、IntentService，除了AsyncTask默认（THREAD_PRIORITY_BACKGROUND）优先级外，其他的均是继承当前线程的priority
+* Android线程除了手动设置的优先级外，所在进程因应用状态产生变化，线程优先级也会随之变化
 
 ### Android篇
 ##### SurfaceView、TextureView
@@ -745,7 +775,6 @@ typedef enum {
 	* 权限申请管理
 * Context个数：Activity.count + Service.count + 1 (Application)
 * 不同Context的功能区别
-
 
 ||Application|Activity|Service|
 |-|-|-|-|
