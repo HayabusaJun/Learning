@@ -564,8 +564,11 @@ static int indexFor(int h, int length) {
 	* cpu：控制对CPU cgroup的访问
 	* cpuset：控制对多核系统中独立CPU和内存节点的访问
 	* schedtune：控制进程调度及boost触发
-* cgroup.share：cGroup获得CPU时间的相对值。CPU获得时间片比例前台进程：后台进程（/dev/cpuctl/ : /dev/cpuctl/bg_non_interactive） ≈ 95 : 5
-* SchedPolicy进程组
+* cpu.share：cGroup获得CPU时间的相对值。CPU获得时间片比例前台进程：后台进程（/dev/cpuctl/ : /dev/cpuctl/bg_non_interactive） ≈ 95 : 5
+* SchedPolicy
+	* Android底层对进程分组
+	* 通过set_sched_policy和set_cpuset_policy设置进程所属的进程组
+	* SchedPolicy进程组分类：
 ```c
 /* Keep in sync with THREAD_GROUP_* in frameworks/base/core/java/android/os/Process.java */
 typedef enum {
@@ -583,19 +586,19 @@ typedef enum {
 ```
 * Android进程组（frameworks/base/core/java/android/os/Process.java）与SchedPolicy进程组对应关系
 
-|Android进程组|SchedPolicy进程组|
-|-|-|
-|THREAD_GROUP_DEFAULT|SP_DEFAULT|
-|THREAD_GROUP_BG_NONINTERACTIVE|SP_BACKGROUND|
-|THREAD_GROUP_FOREGROUND|SP_FOREGROUND|
-|THREAD_GROUP_SYSTEM|SP_SYSTEM|
-|THREAD_GROUP_AUDIO_APP|SP_AUDIO_APP|
-|THREAD_GROUP_AUDIO_SYS|SP_AUDIO_SYS|
-|THREAD_GROUP_TOP_APP|SP_TOP_APP|
+|Android进程组|含义|SchedPolicy进程组|调度组|
+|-|-|-|-|
+|THREAD_GROUP_DEFAULT||SP_DEFAULT|Other|
+|THREAD_GROUP_BG_NONINTERACTIVE|are scheduled with a reduced share of the CPU|SP_BACKGROUND|SCHED_GROUP_BACKGROUND|
+|THREAD_GROUP_FOREGROUND|are scheduled with a normal share of the CPU|SP_FOREGROUND||
+|THREAD_GROUP_SYSTEM|System thread group|SP_SYSTEM||
+|THREAD_GROUP_AUDIO_APP|Application audio thread group|SP_AUDIO_APP||
+|THREAD_GROUP_AUDIO_SYS|System audio thread group|SP_AUDIO_SYS||
+|THREAD_GROUP_TOP_APP|Thread group for top foreground app|SP_TOP_APP|SCHED_GROUP_TOP_APP SCHED_GROUP_TOP_APP_BOUND|
 
 * Linux进程优先级oom_score_adj（after v2.6.36）
-	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
 	* 每个进程的优先级保存在/proc/[pid]/oom_score_adj
+	* -1000 ~ + 1001，值越小进程优先级越高，内存紧张时越不容易被回收
 	* LowMemoryKiller根据当前内存情况由低到高依次释放进程：
 		*	CACHED_APP_MAX_ADJ
 		*	CACHED_APP_MIN_ADJ
@@ -604,6 +607,7 @@ typedef enum {
 		*	VISIBLE_APP_ADJ
 		*	FOREGROUND_APP_ADJ
 
+【ProcessList.java中oom_score_adj的一些预设值】
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/oomScoreAdj.png)
 
 * Android进程划分
@@ -617,6 +621,7 @@ typedef enum {
 ![avater](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/AndroidProcessState.png)
 
 * Android进程优先级与Android应用组件生命周期变化相关，涉及：Activity、Service、Broadcast、ContentProvider、Process的相关事件。这些事件都过直接或者间接的调用到ActivityManagerService.java中的updateOomAdjLocked方法来更新进程优先级。updateOomAdjLocked方法先通过computeOomAdjLocked计算进程优先级，再通过applyOomAdjLocked应用进程优先级
+* Android应用状态变化后，进程的调度策略也会发生变化，调度策略的变化改变本进程（主线程）的优先级和其他线程的优先级
 * Android应用状态发生变化后，会导致进程的oom_score_adj、procState、schedGroup等进程状态的重新计算和设置，从而改变进程的优先级和调度策略，帮助系统更合理的进行资源分配和回收
 * Android的线程对应Linux内核中的轻量级进程，主线程不建议手动设置，由系统根据应用状态的变化来调整。但子线程可以自行配置优先级。
 * computeOomAdjLocked大致经过以下过程：
@@ -628,7 +633,9 @@ typedef enum {
 	* 遍历所有Service的所有连接的Client，根据连接的关系确认客户端进程的优先级
 	* 遍历所有ContentProvider的所有连接的client
 * Android几种异步线程方式：new Thread()、AsyncTask、HandlerThread、ThreadPoolExecutor、IntentService，除了AsyncTask默认（THREAD_PRIORITY_BACKGROUND）优先级外，其他的均是继承当前线程的priority
-* Android线程除了手动设置的优先级外，所在进程因应用状态产生变化，线程优先级也会随之变化
+* 设置进程组，改变进程所在的cgroup
+* 设置调度组，实现主线程在实时优先级和普通优先级间的切换
+* 设置nice值，改变进程所在的cgroup
 
 ### Android篇
 ##### SurfaceView、TextureView
