@@ -47,3 +47,11 @@
 * 经济模型——生产可能性边界（production possibilities frontier）
 	* 表示在可能得到的生产要素与生产技术既定时，一个经济所能生产的产品数量的各种组合的图形
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/productionPossibilityFrontier.jpg)
+
+* **微观经济学**（microeconomics）：研究家庭和企业如何做出决策，以及它们如何在市场上交易的学科。
+* **宏观经济学**（macroeconomics）：研究整体经济现象，包括通货膨胀、失业和经济增长的学科。
+* **实时表述**（positive statements）：试图描述世界是什么样子的观点。
+* **规范描述**（normative statements）：试图描述世界应该是什么样子的观点。
+
+##### 第3章 相互依存性和贸易的好处
