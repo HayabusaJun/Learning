@@ -39,3 +39,11 @@
 		* 失业率降低
 
 #### 第2章 像经济学家一样思考
+* 经济模型——循环流量图（circular-flow diagram）
+	* 说明货币如何通过市场在家庭与企业之间流动的直观经济模型
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/circularFlowDiagram.jpg)
+
+* 经济模型——生产可能性边界（production possibilities frontier）
+	* 表示在可能得到的生产要素与生产技术既定时，一个经济所能生产的产品数量的各种组合的图形
+
