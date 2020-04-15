@@ -158,7 +158,7 @@
 * **生产者剩余**（producer surplus）：卖者出售一种物品得到的量减去其生产成本。
 * **效率**（efficiency）：资源配置使社会所有成员得到的总剩余量最大化的性质。
 
-![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/marketSurplusOnEquilibrium.jpg)
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/marketSurplusOnEquilibrium.png)
 
 
 
