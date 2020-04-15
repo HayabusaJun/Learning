@@ -328,3 +328,29 @@
 	* 公有制（电话、供水、供电）
 	* 不作为
 
+### 第16章 垄断竞争
+* 不完全竞争：在垄断和完全竞争之间。
+* **寡头**（oligopoly）：只有少数几个提供相似或相同产品的卖者的市场结构。
+	* 集中率：行业中四家最大的企业占市场总产量的比重
+	* 一般行业：< 50%；寡头行业：> 75%
+* **垄断竞争**（monopolistic competition）：存在许多出售相似但不相同产品的企业的市场结构。特征：
+	* 许多卖者
+	* 产品存在差别
+	* 自由进入和退出
+* 短期均衡中，垄断竞争企业和垄断企业一样，利润最大化产量是由**边际收益曲线**与**边际成本曲线**的交点决定的。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/shortTermAboutMonopolisticCompetitive.jpg)
+
+* 长期均衡中：
+	* 如垄断市场一样，价格大于边际成本。边际收益等于边际成本
+	* 如竞争市场一样，价格等于平均总成本。因为市场的自由进入和退出使得经济利润为0
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/longTermAboutMonopolisticCompetitive.jpg)
+
+* 使平均成本最小的产量成为企业的**有效规模**。
+* 完全竞争企业在有效规模上生产，而垄断竞争的企业产量小于这一规模。
+* 企业在垄断竞争之下有**过剩**的生产能力。
+* 垄断竞争**不能保证**价格像充分竞争那样等于边际成本
+* 在垄断竞争下，看不见的手并不能确保总剩余最大化。市场中的企业可能过多或者过少。同时由于这种无效率是模糊的，公共政策难以解决。
+* **广告**本身就向消费者传递**产品质量**的信号。
+* **品牌**向企业提供了保持高质量的**激励**。
