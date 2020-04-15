@@ -177,7 +177,7 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/taxEffectAboutElasticity.jpg)
 
-* 税收增加的越多，它对激励的扭曲就越大，无畏损失就越大。但由于税收减少了市场规模，税收收入不会一直增加。税收收入随着税收规模的扩大而增加，但如果税收规模达到足够大，税收收入就开始下降
+* 税收增加的越多，它对激励的扭曲就越大，无谓损失就越大。但由于税收减少了市场规模，税收收入不会一直增加。税收收入随着税收规模的扩大而增加，但如果税收规模达到足够大，税收收入就开始下降
 
 ### 第9章 国际贸易
 * **世界价格**（world price）：一种物品在世界市场上通行的价格。
@@ -187,7 +187,7 @@
 	* 从赢家收益超过输家损失的意义上说，贸易使一国的经济福利增加了
 * **关税**（tariff）：对在国外生产而在国内销售的物品征收的一种税。
 	* 关税减少进口量，并使国内市场向没有贸易时的均衡移动
-	* 引起贸易的**无畏损失**
+	* 引起贸易的**无谓损失**
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/taxEffectAboutTrade.jpg)
 
@@ -295,4 +295,36 @@
 	* 在可以自由进入与退出的竞争市场的长期平衡中，企业一定是在其有效规模上运营
 * 由于企业在长期中比在短期中更容易进入和退出，所以长期供给曲线一般比短期供给曲线更富弹性。
 * 需求变动在不同时间范围之内有不同的影响。在短期中，需求增加引起价格上涨，并带来利润，而需求的减少引起价格下降，并带来亏损。但如果企业可以自由进入和退出市场，那么在长期中企业数量将自发调整，使市场回到零利润的均衡。
+
+### 第15章 垄断
+* 竞争企业是价格接受者，垄断企业是**价格决定者**
+* **垄断企业**（monopoly）：作为一种没有相近替代品的产品的唯一卖者的企业。
+	进入壁垒有三个主要形成原因：
+	* 垄断资源：生产所需要的关键资源由单个企业所拥有
+	* 政府管制：政府给予单个企业排他性地生产某种物品或服务的权利
+	* **自然垄断**（natural monopoly）：某个企业能以低于大量企业的成本生产产品
+* 垄断者的利润最大化产量是由边际收益曲线与边际成本曲线的交点决定的（边际收益为0）。在竞争市场上，价格等于边际成本；在垄断市场上，价格大于边际成本。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceOfMonopoly.jpg)
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/revenueOfMonopoly.jpg)
+
+* 垄断者生产的产量**小于**社会有效率的产量
+	* 由于垄断者收取高于边际成本的价格，并不是所有对物品评价高于物品成本的消费者都会购买它
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/deadweightCostCauseByMonopoly.jpg)
+
+* **价格歧视**（price discrimination）：以不同价格向不同顾客出售同一种物品的经营做法。
+* 完全价格歧视描述垄断者了解每个顾客的支付意愿，并对每个顾客收取不同价格的情况。这种情况下垄断者得到每次交易中的全部剩余。
+* 几种价格歧视例子：
+	* 电影票
+	* 机票
+	* 折扣券
+	* 财务援助
+	* 数量折扣
+* 针对垄断的公共政策
+	* 用反托拉斯法增强竞争（反并购）
+	* 管制（限价）
+	* 公有制（电话、供水、供电）
+	* 不作为
 
