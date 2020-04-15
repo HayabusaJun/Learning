@@ -96,7 +96,7 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/movementOfDemandAndSupply.jpg)
 
-
+* 在市场经济中，**价格**是引导经济决策从而配置稀缺资源的信号。
 
 
 
