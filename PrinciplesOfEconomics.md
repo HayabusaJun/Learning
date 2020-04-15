@@ -94,7 +94,7 @@
 	* 确定曲线移动的方向
 	* 用供给图说明这种移动如何改变均衡价格和均衡数量的
 
-
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/movementOfDemandAndSupply.jpg)
 
 
 
