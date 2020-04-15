@@ -160,5 +160,9 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/marketSurplusOnEquilibrium.png)
 
+* 决策者通常关心经济结果的**效率及公平**
+* 供给与需求的均衡使消费者剩余与生产者剩余的总和达到最大化。市场中看不见的手指引着买者与卖者有效地配置资源
+* 在存在**市场势力**或**外部性**等使市场失灵的因素下，市场不能有效地配置资源
+
 
 
