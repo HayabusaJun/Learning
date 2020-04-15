@@ -262,6 +262,8 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/costCurve.jpg)
 
+（MC：边际成本，AFC：平均固定成本，AVC：平均可变成本，ATC：平均总成本）
+
 * **规模经济**（economies of scale）：长期平均总成本随产量的增加而减少的特性。
 * **规模不经济**（diseconomies of scale）：长期平均总成本随产量的增加而增加的特性。
 * **规模收益不变**（constant returns to scale）：长期平均总成本在产量变动时保持不变的特性。
