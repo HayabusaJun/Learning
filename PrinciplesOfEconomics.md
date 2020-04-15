@@ -455,4 +455,4 @@
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/incomeOrSubstitutionEffect.png)
 
 * **吉芬物品**（Giffen goods）：价格上升引起需求增加的物品。（土豆、大米）
-* 消费者选择理论（收入还是替代？）可以解释为什么需求曲线可能向右上方倾斜，为什么工资工资增加既可能增加也可能降低劳动供给量，为什么高利率既可能增加也可能减少储蓄。
+* 消费者选择理论（收入还是替代？）可以解释为什么需求曲线可能向右上方倾斜（资源向MRS低的物品倾斜），为什么工资工资增加既可能增加也可能降低劳动供给量（可以多休息 or 时间更值钱了），为什么高利率既可能增加也可能减少储蓄（更少的储蓄可以带来与之前相同的收益 or 储蓄带来的利益更多）。
