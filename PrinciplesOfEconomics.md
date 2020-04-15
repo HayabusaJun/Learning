@@ -131,3 +131,14 @@
 * 当政府对竞争市场实行**限制性价格上限**时，就产生了物品的短缺，而且，卖者必须在大量的潜在买者中配给稀缺物品。
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceCeiling.jpg)
+
+* **限制性价格下限**引起过剩
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceFloor.jpg)
+
+
+
+
+
+
+
