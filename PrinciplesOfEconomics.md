@@ -419,4 +419,37 @@
 	* 实物转移支付
 	* 反贫困计划和工作激励
 
+### 第21章 消费者选择理论
+* **预算约束线**（budget constraint）：对消费者可以支付得起的消费组合的限制。
+* **无差异曲线**（indifference curve）：一条表示给消费者带来相同满足程度的消费组合的曲线。
+* **边际替代率**（marginal rate of substitution，MRS）：消费者愿意以一种物品交换另一种物品的比率。
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/indifferenceCurve.jpg)
+
+* 无差异曲线的四个特征：
+	* 消费者对较高无差异曲线的偏好大于较低无差异曲线（消费者偏好更多的商品）
+	* 无差异曲线向右下方倾斜（如果减少一种产品的数量，为了得到相同的满足感，必须增加另一种产品的数量）
+	* 无差异曲线不相交（不可能存在消耗更多物品，但满足程度一样的情况）
+	* 无差异曲线凸向原点（消费者愿意放弃Ta已经大量拥有的那一种产品）
+* **完全替代品**（perfect substitutes）：无差异曲线为直线的两种物品。（不同面值的钞票）
+* **完全互补品**（perfect complements）：无差别曲线为直角的两种物品。（鞋子的左右脚）
+* 消费者最优解：消费者可以达到的**最高**无差异曲线正好与预算约束线相切的点。
+	* 消费者选择的两种物品组合要使边际替代率等于相对价格
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/bestSolutionOfConsumer.png)
+
+* **正常物品**（normal goods）：收入增加引起需求量增加的物品。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/commonGoods.png)
+
+* **低档物品**（inferior goods）：收入增加引起需求量减少的物品。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/inferiorGoods.png)
+
+* **收入效应**（income effect）：当价格的某种变动使消费者移动到更高或更低的无差异曲线时所引起的消费变动。
+* **替代效应**（substitution effect）：当价格的某种变动使消费者沿着一条既定的无差异曲线变动到有新边际替代率的一点时所引起的消费变动。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/incomeOrSubstitutionEffect.png)
+
+* **吉芬物品**（Giffen goods）：价格上升引起需求增加的物品。（土豆、大米）
+* 消费者选择理论（收入还是替代？）可以解释为什么需求曲线可能向右上方倾斜，为什么工资工资增加既可能增加也可能降低劳动供给量，为什么高利率既可能增加也可能减少储蓄。
