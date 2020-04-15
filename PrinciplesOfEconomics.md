@@ -164,5 +164,21 @@
 * 供给与需求的均衡使消费者剩余与生产者剩余的总和达到最大化。市场中看不见的手指引着买者与卖者有效地配置资源
 * 在存在**市场势力**或**外部性**等使市场失灵的因素下，市场不能有效地配置资源
 
+### 第8章 应用：赋税的代价
+* **无谓损失**（deadweight loss）：市场扭曲（例如税收）引起的总剩余减少
+	* 买者和卖者因税收遭受的损失大于政府筹集到的收入
+	* 税收引起武威损失是因为它使买者和卖者不能实现某些贸易的好处
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/taxEffect.jpg)
+
+（A：消费者剩余，F：生产者剩余，B+D：税收收入，C+E：税收造成的无谓损失）
+
+* 供给和需求的弹性越大，税收的无谓损失也就越大
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/taxEffectAboutElasticity.jpg)
+
+* 税收增加的越多，它对激励的扭曲就越大，无畏损失就越大。但由于税收减少了市场规模，税收收入不会一直增加。税收收入随着税收规模的扩大而增加，但如果税收规模达到足够大，税收收入就开始下降
+
+
 
 
