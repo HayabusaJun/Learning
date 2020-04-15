@@ -110,5 +110,21 @@
 	* 市场的定义：狭义定义市场的需求弹性往往大于宽泛广义定义的市场
 	* 时间范围
 * **总收益**（total revenue）：一种物品的买者支付从而卖者得到的量，用该物品的价格乘以销售量来计算。
+* 需求量与弹性的一般规律：
+	* 需求缺乏弹性（elastic < 1）时，价格和总收益同方向变动，如果价格上升，总收益增加
+	* 需求富有弹性（elastic > 1）时，价格和总收益反方向变动，如果价格上升，总收益减少
+	* 单位弹性（elastic = 1）时，无论价格如何变化，总收益不变
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/revenueAboutDemandAndElastic.jpg)
+
+* **需求收入弹性**（income elasticity of demand）：衡量一种物品需求量与消费者收入变动反应程度的指标，用需求量变动百分比除以收入变动百分比来计算。
+* **需求的交叉价格弹性**（cross-price elasticity of demand）：衡量一种物品需求量对另一种物品价格变动的反应程度的指标，用第一种物品需求量变动百分比除以第二种物品需求量变动百分比来计算。
+	* 替代品：正交叉弹性指数（汉堡&热狗，其中一个价格的提升导致另一个需求的增加）
+	* 互补品：负交叉弹性指数（电脑&软件，其中一个价格的提升导致另一个需求的减少）
+* **供给价格弹性**（price elasticity of supply）：衡量一种物品供给量对其价格变动反应程度的指标，用供给量变动百分比除以价格变动百分比计算。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/elasticityOfSupply.jpg)
+
+
 
 
