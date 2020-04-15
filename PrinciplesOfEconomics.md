@@ -81,6 +81,11 @@
 	* 在均衡价格时，买者愿意而且能够购买的物品量与卖者愿意而且能够出售的数量相平衡。均衡价格有时也被称为**市场出清价格**
 * **均衡数量**（equilibrium quantity）：均衡价格下的供给量与需求量。
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/equilibrium.jpg)
+
+* **过剩**（surplus）：供给量大于需求量的状态。
+* **短缺**（shortage）：需求量大于供给量的状态。
+* **供求定理**（law of supply and demand）：认为任何一种物品的价格都会自发调整，使该物品的供给和需求达到平衡的观点。
 
 
 
