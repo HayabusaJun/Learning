@@ -145,4 +145,9 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/buyerTax.jpg)
 
+* **税收负担**更多的落在**缺乏弹性**的市场一方身上。弹性衡量当条件变得不利时，买者或者卖者离开市场的意愿。缺乏弹性的一方因为难以离开市场导致接收税收的大部分。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/taxDistributionAboutElasticity.jpg)
+
+
 
