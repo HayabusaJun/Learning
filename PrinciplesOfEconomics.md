@@ -424,7 +424,7 @@
 * **无差异曲线**（indifference curve）：一条表示给消费者带来相同满足程度的消费组合的曲线。
 * **边际替代率**（marginal rate of substitution，MRS）：消费者愿意以一种物品交换另一种物品的比率。
 
-![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/indifferenceCurve.jpg)
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/indifferenceCurve.png)
 
 * 无差异曲线的四个特征：
 	* 消费者对较高无差异曲线的偏好大于较低无差异曲线（消费者偏好更多的商品）
@@ -433,6 +433,9 @@
 	* 无差异曲线凸向原点（消费者愿意放弃Ta已经大量拥有的那一种产品）
 * **完全替代品**（perfect substitutes）：无差异曲线为直线的两种物品。（不同面值的钞票）
 * **完全互补品**（perfect complements）：无差别曲线为直角的两种物品。（鞋子的左右脚）
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/perfectSubstitutionsAndComplements.png)
+
 * 消费者最优解：消费者可以达到的**最高**无差异曲线正好与预算约束线相切的点。
 	* 消费者选择的两种物品组合要使边际替代率等于相对价格
 
