@@ -128,17 +128,21 @@
 ##### 第6章 供给、需求和政府政策
 * **价格上限**（price ceiling）：出售一种物品的法定最高价格。
 * **价格下限**（price floor）：出售一种物品的法定最低价格。
-* 当政府对竞争市场实行**限制性价格上限**时，就产生了物品的短缺，而且，卖者必须在大量的潜在买者中配给稀缺物品。
+* 当政府对竞争市场实行**限制性价格上限**时，就产生了物品的短缺，而且，卖者必须在大量的潜在买者中配给稀缺物品。（油价上限导致加油困难）
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceCeiling.jpg)
 
-* **限制性价格下限**引起过剩
+* **限制性价格下限**引起过剩（最低工资法导致失业率增加）
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceFloor.jpg)
 
+* **税收归宿**（tax incidence）：税收负担在市场参与者之间进行分配的方式。
+* 对买者征税和对卖者征税是相同的：
+	* 税收抑制了市场活动。当对一种物品征税时，该物品在新均衡时的销售量减少了
+	* 买者与卖者分摊了税收负担
 
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/sellerTax.jpg)
 
-
-
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/buyerTax.jpg)
 
 
