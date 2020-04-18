@@ -761,17 +761,26 @@
 	* 减少了资本净流出
 	* 用于兑换外国通货的美元供给减少
 	* 引起真实汇率上升，净出口减少（出口物品变贵，竞争力下降）
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/governmentDeficit.png)
+
 * 进口配额增加时：
 	* 进口配额增加增加了美元的需求
 	* 引起真实汇率的上升
 	* 资本净出口因为美元的供给不变，所以也没有改变
 	* 可贷资金市场不受进口配额的贸易政策影响
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/importQuotaIncrease.png)
+
 * **贸易政策**（trade policy）：直接影响一国进口或出口的物品与服务数量的政府政策。
 * **资本外逃**（capital flight）：一国资产需求大量且突然的减少。
 * 资本外逃时：
 	* 本净流出增加
 	* 可贷资金需求增加，引起真实利率上升
 	* 同时外汇市场上本国货币的供给增加，引起本国货币贬值
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/capitalFlight.png)
+
 * 中国的资本流动：政府压低人民币通货在外汇市场上的价值，以使得出口商品更有竞争力，增加外汇储备。
 
 ### 第33章 总需求与总供给
@@ -823,3 +832,25 @@
 	* 决策者可以通过扩大总需求来抵消供给减少
 	* 引起物价水平进一步上升
 	* 产量维持其自然水平
+
+### 第34章 货币政策和财政政策对总需求的影响
+* 每个国家财富效应、利率效应、汇率效应各自影响总需求的比例不同。美国主要受利率效应影响。
+* **流动性偏好理论**（theory of liquidity preference）：凯恩斯的理论，认为利率的调整使货币供给与货币需求平衡。
+* 在短期中，物价总水平并不能使货币供求平衡。
+* 利率的短期决定因素：流动偏好理论——物价恒定，利率调整使得货币供求平衡，物价和利率固定时产量调整使得供需平衡。
+* 利率的长期决定因素：可贷资金理论——产量恒定，利率调整使得可贷资金平衡，产量和利率固定时物价调整使得供需平衡。
+* 物价影响货币市场与总需求曲线
+	* 物件水平上升
+	* 货币需求量增加
+	* 利率上升
+	* 减少了物品与服务的总需求量
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/priceIncrease.png)
+
+* 货币供给影响货币市场与总需求曲线
+	* 货币供给增加
+	* 利率下降
+	* 增加了既定物价水平下物品与服务的总需求量
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/moneyImport.png)
+
