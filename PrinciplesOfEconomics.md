@@ -854,3 +854,17 @@
 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/moneyImport.png)
 
+* 旨在扩大总需求的货币政策变动既可以被描述为货币供给的增加，也可以被描述为利率的降低。
+* 流动性陷阱：利率降至零，政策无法再通过降低利率来刺激投资。
+* 量化宽松：非常规的货币政策，比如央行购买抵押贷款和公司债券，从而降低这些贷款的利率。
+* **乘数效应**（multiplier effect）：当扩张性财政政策增加了收入，从而增加了消费支出时引起的总需求的额外变动。
+* 边际消费倾向（MPC）：家庭额外收入中用于**消费**而非储蓄的比例。
+* 乘数 = 1 + MPC + MPC² + ... = 1 / (1 - MPC)
+* **挤出效应**（crowding-out effect）：当扩张性财政政策引起利率上升，从而减少投资支出时引起的总需求减少。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/crowdingOutEffect.png)
+
+* **自动稳定器**（automatic stabilizers）：当经济进入衰退时，决策者不必采取任何有意义的行动就可以刺激总需求的财政政策变动。
+* 货币政策和财政政策
+	* 政府需要再家庭和企业态度的改变使总需求改变时做出反应，避免产量和就业的不必要波动
+	* 有迟滞性，可以造成更大的不稳定
