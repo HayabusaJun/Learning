@@ -868,3 +868,33 @@
 * 货币政策和财政政策
 	* 政府需要再家庭和企业态度的改变使总需求改变时做出反应，避免产量和就业的不必要波动
 	* 有迟滞性，可以造成更大的不稳定
+
+### 第35章 通货膨胀与失业之间的短期权衡取舍
+* **菲利普斯曲线**（Phillips curve）：一条表示通货膨胀与失业之间短期权衡取舍的曲线。
+	* 菲利普斯曲线说明，短期中出现的通货膨胀与失业的组合是由于总需求曲线的移动使经济沿着短期总供给曲线变动。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/phillipsCurve.png)
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/phillipsCurveMovement.png)
+
+*短期中物品与服务的需求增加，引起产量和物价总水平上升。产量越多意味着失业减少
+
+* 在长期中，失业并不取决于货币量增长和通货膨胀。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/phillipsCurveInLongTerm.png)
+
+* 自然失业率中的**自然**意味着不受货币政策影响。
+* **自然率假说**（natural-rate hypothesis）：认为无论通货膨胀率如何，失业率最终都要回到其正常率或者自然率的观点。
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/naturalRateHypothesis.png)
+
+* **供给冲击**（supply shock）：直接改变企业的成本和价格，使经济中的总供给曲线移动，进而使菲利普斯曲线移动的事件。
+	* 总供给（产量）减少
+	* 提高了物价水平
+	* 给决策者一种失业与通货膨胀之间的抉择
+
+![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHostingForPriciplesOfEconomics/supplyShock.png)
+
+* **牺牲率**（sacrifice ratio）：在通货膨胀减少一个百分点的过程中每年产量损失的百分点数。
+	* 一般为5
+* **理性预期**（rational expectations）：当人们预测未来时，可以充分运用他们所拥有的全部信息，包括有关政府政策的信息的理论。
