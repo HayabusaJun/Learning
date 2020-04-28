@@ -150,14 +150,6 @@
 	* 方法区的一部分
 	* 存放编译器生成的字面量和符号引用
 
-##### ThreadPoolExecutor
-* 当ThreadPool.size < coreThreads.size时，即使之前的线程已经出现空闲了，executor也会创建一个core thread
-* 当coreThreads.size达到ThreadPool.size，新任务会优先去往WorkQueue
-* 当WorkQueue.isFull，但没有到达max值时，创建一个non-core thread
-* 当WorkQueue达到max值时，任务被交给RejectedExecutionHandler
-* 当non-core thread空闲时间超过keep alive time时，自行销毁
-* 当core-thread空闲时间超过allowCoreThreadTimeout时自行销毁
-
 ### 锁篇
 ##### 锁的状态
 * 重量级锁：依赖于Mutex锁；
@@ -493,6 +485,26 @@ static int indexFor(int h, int length) {
 * ConcurrentSkipListMap
 
 ### Linux篇
+##### Thread（juerqiu's ppt）
+* 用户线程：无需内核支持而在用户程序中实现的线程
+* 不依赖于操作系统核心管理，应用进程利用线程库提供创建、同步、调度和管理线程的函数来控制用户线程
+* 不需要用户态/内核态切换，速度快，操作系统内核不知道多线程的存在，因此用户线程阻塞并不会妨碍内核线程的调度
+* Android中建立的线程属于用户态线程，内部阻塞只会影响当前进程，而不会影响其他进程调度
+* 进程优先级：前台进程 > 后台进程 > App常驻后台（像素点、播放声音、通知栏漏洞、双进程守护）
+* 线程优先级Nice Value（详见**线程调度**）
+* 一般来说线程优先级与工作量呈反比。工作量越多，线程优先级越低，防止饿死系统进程
+* UI Thread，Foreground级，因为UI工作量少，所以优先级高
+* AsyncTask，Background级，任务多
+* Nice Value意图在于减少高优先级线程任务被中断的次数，但是后台线程过多的情况下，这个策略未必有效
+* Control Group——cGroup：Android系统会把低优先级的线程划分到后台cGroup。当高优先级线程（UI Thread）繁忙时，整个后台cGroup只能占用有限的CPU比例（5% ~ 10%）
+* 理论上无需关心线程的优先级问题，系统已经做了对应的设置
+	* HandlerThread——default
+	* AsyncTask——background
+	* Thread——parent.priority
+* 多线程为了更好的利用资源，而非提高效率
+* 多线程适合于多核CPU做并行计算
+* 如果是串行的，单线程更优
+
 ##### 线程调度(http://ohmerhe.com/2018/03/21/android_thread_scheduling/)
 * 进程是资源管理最小单位，管理诸如CPU、内存、文件等。并将线程分配到某个CPU上执行
 * 线程是执行的最小单位。一个进程至少需要一个线程作为它指令的执行体
@@ -517,7 +529,7 @@ static int indexFor(int h, int length) {
 		* 实时进程：RTPRI
 * nice值
 	* 设定一个普通进程的优先级
-	* -20 ~ 19，越大优先级越低，获得CPU的调用机会越少
+	* -20 ~ 19，越大优先级越低，越小优先级越高，获得CPU的调用机会越少
 	* 父进程fork出的子进程nice值继承父进程，父进程renice，子进程不会同时renice
 	* 进程nice值被改变后，底层会改变进程所在的cGroup（进程组）
 |Java Priority|nice值|
@@ -636,6 +648,26 @@ typedef enum {
 * 设置进程组，改变进程所在的cgroup
 * 设置调度组，实现主线程在实时优先级和普通优先级间的切换
 * 设置nice值，改变进程所在的cgroup
+
+##### ThreadPoolExecutor
+* 初始化参数相关含义
+
+|参数|描述|
+|-|-|
+|corePoolSize|核心线程池大小|
+|maximumPoolSize|最大线程池大小（核心 + 非核心）|
+|keepAliveTime|线程池中超过corePoolSize数目的非核心线程**空闲时**的最大存活时间。如果allowCoreThreadTimeOut(true)，则核心线程**空闲时**也受该时间限制|
+|unit|keepAliveTime的单位|
+|workQueue|阻塞任务队列|
+|threadFactory|线程构建工厂，用于实例化具体的工作线程|
+|handler|RejectedExecutionHandler，当提交的任务数超过maximumPoolSize + workQueue.size时，任务会交个handler处理|
+
+* 当ThreadPool.size < coreThreads.size时，即使之前的线程已经出现空闲了，executor也会创建一个core thread
+* 当coreThreads.size达到ThreadPool.size，新任务会优先去往WorkQueue
+* 当WorkQueue.isFull，但没有到达max值时，创建一个non-core thread
+* 当WorkQueue达到max值时，任务被交给RejectedExecutionHandler
+* 当non-core thread空闲时间超过keep alive time时，自行销毁
+* 当core-thread空闲时间超过allowCoreThreadTimeout时自行销毁。如果allowCoreThreadTimeOut(true)，销毁时间则对齐keepAliveTime
 
 ### Android篇
 ##### SurfaceView、TextureView
