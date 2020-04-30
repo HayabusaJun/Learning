@@ -15,25 +15,25 @@
 
 ```(Java)
 public int minSubArrayLen(int s, int[] nums) {
-  if (null == nums || nums.length <= 0) return 0;
-  
-  int left = 0;
-  int right = 0;
-  int sum = 0;
-  int len = 0;
-  
-  while (right < nums.length) {
-    sum += nums[right];
+    if (null == nums || nums.length <= 0) return 0;
+
+    int left = 0;
+    int right = 0;
+    int sum = 0;
+    int len = 0;
+
+    while (right < nums.length) {
+        sum += nums[right];
     
-    while (sum >= s) {
-      len = len <= 0 ? right - left + 1 : Math.min(len, right - left + 1);
-      sum -= nums[left++];
+        while (sum >= s) {
+            len = len <= 0 ? right - left + 1 : Math.min(len, right - left + 1);
+            sum -= nums[left++];
+        }
+        right++;
     }
-    right++;
-  }
   
-  return len;
- }
+    return len;
+}
 ```
 
 ### [210. Course Schedule II](https://leetcode-cn.com/problems/course-schedule-ii/)
@@ -67,44 +67,44 @@ public int minSubArrayLen(int s, int[] nums) {
 
 ```(Java)
 public int[] findOrder(int numCourses, int[][] prerequisites) {
-  if (numCourses <= 0) {
-    return new int[0];
-  }
-
-  int[] refs = new int[numCourses];
-  for (int[] pair: prerequisites) {
-    refs[pair[0]]++;
-  }
-
-  final Stack<Integer> emptyStack = new Stack<Integer>();
-  for (int i = 0; i < numCourses; i++) {
-    if (refs[i] <= 0) {
-      emptyStack.push(i);
+    if (numCourses <= 0) {
+        return new int[0];
     }
-  }
 
-  final int[] array = new int[numCourses];
-  int arrayIndex = 0;
-
-  while (!emptyStack.isEmpty()) {
-    final int emptyKey = emptyStack.pop();
-    array[arrayIndex++] = emptyKey;
-
+    int[] refs = new int[numCourses];
     for (int[] pair: prerequisites) {
-      if (pair[1] == emptyKey) {
-        refs[pair[0]]--;
-
-        if (refs[pair[0]] <= 0) {
-          emptyStack.push(pair[0]);
-        }
-      }
+        refs[pair[0]]++;
     }
-  }
 
-  if (arrayIndex < array.length) {
-    return new int[0];
-  }
+    final Stack<Integer> emptyStack = new Stack<Integer>();
+    for (int i = 0; i < numCourses; i++) {
+        if (refs[i] <= 0) {
+            emptyStack.push(i);
+        }
+    }
 
-  return array;
+    final int[] array = new int[numCourses];
+    int arrayIndex = 0;
+
+    while (!emptyStack.isEmpty()) {
+        final int emptyKey = emptyStack.pop();
+        array[arrayIndex++] = emptyKey;
+
+        for (int[] pair: prerequisites) {
+            if (pair[1] == emptyKey) {
+                refs[pair[0]]--;
+
+                if (refs[pair[0]] <= 0) {
+                    emptyStack.push(pair[0]);
+                }
+            }
+        }
+    }
+
+    if (arrayIndex < array.length) {
+        return new int[0];
+    }
+
+    return array;
 }
 ```
