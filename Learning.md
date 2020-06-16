@@ -952,3 +952,56 @@ https://blog.csdn.net/universus/article/details/6211589
 	* 具体装饰类D，继承C，实现时在A的抽象方法实现中可以进行自由扩展
 	* D就是对B的一个装饰类，对B的实现进行了拓展
 
+### 网络篇
+##### HTTP中GET请求和POST请求的区别
+* GET is used to request data from a specified resource.
+	* GET requests **can be cached**
+	* GET requests **remain** in the browser history
+	* GET requests **can be bookmarked**
+	* GET requests should **never be used** when dealing with **sensitive data**
+	* GET requests have **length restrictions**
+	* GET requests are only used to **request data (not modify)**
+* POST is used to send data to a server to **create/update** a resource.
+	* POST requests are **never cached**
+	* POST requests do **not remain** in the browser history
+	* POST requests **cannot be bookmarked**
+	* POST requests have **no restrictions** on data length
+
+##### PUT和POST的区别
+* PUT多次结果一样，POST多次可能产生不同结果（产生多个resource）
+
+##### HEAD和GET的区别
+* HEAD没有返回response body，常用于GET前对GET结果类型的探测
+
+##### 浏览器输入URL到展示Web页面整个过程的流程（HTTP）
+* URL解析，其中包含的检查：
+	* 判断URL是合法URL还是待搜索的关键词
+	* 使用HSTS强制客户端使用Https访问页面
+	* 安全检查，访问限制
+	* 缓存检查（有缓存未过期使用本地资源返回304，有缓存有过期返回200并更新资源）
+* DNS解析。逐级检查DNS缓存的顺序：
+	* 浏览器缓存
+	* 操作系统缓存
+	* 路由器缓存
+	* ISP DNS缓存（电脑上首选的DNS服务器）
+	* 根域名服务器查询（递归查询和迭代查询）
+* TCP连接
+	* 使用IP构造http报文，包含请求头和请求主体
+	* 数据的逐级封装和逐级解封
+* 服务器处理请求
+	* 开启子进程处理请求
+	* 解析请求（方法、域名、路径等）
+	* 如果配置了重定向，返回301；如果请求文件是真实存在的，进行URL重写，返回类似图片、css、html、js等
+* 浏览器接收响应
+	* 资源分析
+	* 看response header中的状态码
+	* 缓存
+	* 根据响应资源的MIME解析响应内容（image/jpeg、application/javascript等）
+* 浏览器页面渲染
+	* HTML解析
+	* CSS解析
+	* 渲染树（DOM树和CSS规则数的合并）
+	* 布局与绘制
+	* 合并渲染层
+	* 回流与重绘
+	* JS编译执行
