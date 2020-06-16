@@ -669,6 +669,34 @@ typedef enum {
 * 当non-core thread空闲时间超过keep alive time时，自行销毁
 * 当core-thread空闲时间超过allowCoreThreadTimeout时自行销毁。如果allowCoreThreadTimeOut(true)，销毁时间则对齐keepAliveTime
 
+##### 内部类、静态内部类
+* static修饰符定义
+——类加载时会加载到方法区，被本类和所有本类的实例所共用。编译后分配的内存会一直存在，直到程序退出。
+* 内部类和静态内部类的定义
+	* 内部类：定义在一个类内部的类。只是一个编译时的概念，编译后就会和外部类行成两个不同的class（outer.class和outer$inner.class）
+		* 内部类与外部类共生，创建一个内部类需要一个外部类
+		* 内部类的所有所有方法和属性均可以被外部类访问，包含private
+	* 静态内部类：被声明为静态的内部类
+		* 即使没有创建外部类的对象，静态内部类一样存在
+		* 静态内部类的方法可以是静态的也可以是非静态的。静态的方法可以直接调用，非静态的方法必须创建了类的对象才能调用
+		* 静态内部类只能引用外部类的static对象或方法
+		* 非静态内部类中不能定义静态的成员变量或方法
+* 区别：
+	* 能否拥有静态方法和成员变量
+	* 能否访问外部类的非静态方法和成员变量
+* 为什么需要内部类?
+——为外部类提供访问的方法或者窗口（Builder）
+* 内部类为什么可以访问外部类的变量和方法？
+——内部类生成class时会持有外部类的引用
+
+##### LRUCache
+* LRUCache是通过什么数据结构实现的？为什么？
+——LinkedList，双向链表，使得get和pop的时间复杂度都是O(1)
+
+##### IO
+* 读文件时，除了使用FileInputStream外，还需要使用BufferedInputStream，它的作用是什么？
+——缓冲输入流，作为文件读取到内存的一个Buffer。减少磁盘IO的频率，增加读取速度。
+
 ### Android篇
 ##### SurfaceView、TextureView
 * SurfaceView
@@ -927,6 +955,10 @@ https://blog.csdn.net/universus/article/details/6211589
 		* 实现IInterface接口，序列化调用方法和入参
 		* 调用remote.transact()后，通过系统调用进入内核态。执行方法的C端线程挂起，等待返回值唤醒
 
+##### SharedPreference
+* .apply是异步执行的话，.read会不会出现数据不一致的问题？为什么？
+——非跨进程情况下不会，sp会将xml的数据统一加载到内存中，无论.apply还是.read都是直接作用于内存中的数据。最后由系统统一回写到xml中。
+
 ### 设计模式篇
 ##### 策略模式
 * 一个问题多种处理方法
@@ -1005,3 +1037,15 @@ https://blog.csdn.net/universus/article/details/6211589
 	* 合并渲染层
 	* 回流与重绘
 	* JS编译执行
+
+##### TCP为什么要三次握手？两次或者四次会有什么问题？
+* 既要保证传输可靠，又要保证传输效率。
+	* 握手需要完成双方initial sequence number的交换和接收确认（ACK）。
+	* 四次握手会浪费一次通信过程（一次initial sequence number的交换和接收确认的结合）。
+	* 两次握手会缺少一次ACK。
+
+##### TCP是如何处理拥塞的
+* 拥塞算法——滑动窗口
+* 窗口大小加性增，发生丢包时乘性减
+* 慢启动，初始窗口小
+* 超时反应，出现超时迹象（3个冗余ACK时）将窗口恢复为1 MSS
