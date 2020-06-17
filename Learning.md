@@ -297,6 +297,15 @@ public final int incrementAndGet() {
 * 数据量较大的时候，建议使用ConcurrentXXX
 * 不保证数据一致性
 
+##### .wait和.sleep的区别
+* sleep()
+	* 属于线程的方法。让当前的线程主动让出CPU，使CPU执行其他任务
+	* 可以在任何地方调用
+	* 不会释放持有的锁
+* wait()
+	* 属于对象锁的方法。让当前线程放弃同步资源锁，重新进入锁的等待队列
+	* 必须在同步方法或者同步代码块中调用
+
 ##### 应用：单例模式
 * 不使用锁和volatile的懒加载线程安全单例
 	* 利用classloader的特性，类加载是线程安全的
@@ -884,6 +893,22 @@ typedef enum {
 * 延迟是如何实现的
 	* MessageQueue.enqueueMessage(Message, long)，根据Message.when将Message按升序插入到MessageQueue中
 	* enqueue后，如果链表首部的Message.when > 0，计算delay time，Looper阻塞。等待下一个Message enqueue或者delay时间到的时候唤醒
+* Toast可以在子线程调用show()吗？
+——可以，但是要注意子线程要调用过Looper.prepare()，并使Looper.loop循环处理消息
+
+##### Hybird
+* JavaScript与Android native交互的几种方式
+	* Schema：override Webview的shouldOverrideUrlLoading来决定是否解析schema
+	* 原生注入：利用注解@JavascriptInterface，在Webview中注入原生方法，JS直接调用原生方法
+	* 使用JS原生的prompt、console、alert，通过在Webview中override相关方法完成交互
+
+##### APK签名
+* Android APK签名的目的是什么？
+——保证安装包的完整性，不被篡改
+
+* 签名是如何保证APK的完整性的？v1签名有什么安全上的问题？
+	* v1：生成CERT.SF、MANIFEST.MF、CERT.RSA三个文件。MANIFEST.MF存储所有APK中文件对应的SHA-1摘要；CERT.SF是对文件和其SHA-1摘要的二次摘要；CERT.RSA是对.SF的签名公钥，同时存储着和签名者相关的信息；最后更新中央目录和结尾偏移。
+	* v2：不再在META_INF中插入文件，而是在APK文件紧邻Contents of ZIP entries的位置插入一个签名分块中插入签名和签名者身份信息。对APK按1M单位进行分块，对每一个分块进行摘要，再对所有摘要进行摘要，生成顶级摘要，最后用顶级摘要签名。这样做允许校验时进行并行计算，增加了校验的性能。
 
 ##### Binder IPC
 https://www.jianshu.com/p/429a1ff3560c
