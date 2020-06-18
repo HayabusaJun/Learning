@@ -706,6 +706,9 @@ typedef enum {
 * 读文件时，除了使用FileInputStream外，还需要使用BufferedInputStream，它的作用是什么？
 ——缓冲输入流，作为文件读取到内存的一个Buffer。减少磁盘IO的频率，增加读取速度。
 
+##### 泛型
+* 类型擦除：Java在编译器层次实现，在编译生成字节码时，包含泛型中的类型参数，用于class cast。运行时，所有的泛型都会被擦除
+
 ### Android篇
 ##### SurfaceView、TextureView
 * SurfaceView
@@ -854,9 +857,19 @@ typedef enum {
 	* onResume()？
 	* onResume -> handleResumeActivity -> Activity.makeVisible()
 * App启动的入口
-	* ActivityThread.main()
-
+	* ActivityThread.main() 
 ![avatar](https://github.com/HayabusaJun/Learning/raw/master/ImageHosting/ActivityStartFlow.png)
+* AMS、ActivityStack、ActivityTask的关系
+	* AMS：独立进程，管理四大组件、Intent、APK进程、Task、内存释放等
+	* ActivityStack：管理Activity实例，AMS有且仅有一个ActivityStack。不同的App、相同App的不同ActivityTask可能运行在不同的进程或者Task中，但是均有唯一的这个ActivityStack管理
+	* ActivityTask：任务栈，与常说的启动模式相关联
+* ANR的弹窗是谁弹出的？
+——AMS的AppErrors在UI线程弹出的
+* LeakCanary的作用原理
+	* 当一个Activity Destroy后，将其放入一个WeakRefrence中
+	* 如果WeakReference引用的Activity被回收，则将弱引用放入ReferenceQueue中
+	* 查看ReferenceQueue中是否存在WeakRefrence对象，如果存在，GC一下
+	* 如果GC后还存在说明出现了内存泄漏，Dump信息
 
 ##### Context
 * Activity extends ContextThemeWrapper extends ContextWrapper extends Context
